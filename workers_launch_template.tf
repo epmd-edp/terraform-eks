@@ -360,7 +360,11 @@ resource "aws_launch_template" "workers_launch_template" {
         "root_kms_key_id",
         local.workers_group_defaults["root_kms_key_id"],
       )
-      delete_on_termination = true
+      delete_on_termination = lookup(
+        var.worker_groups_launch_template[count.index],
+        "ebs_delete",
+        local.workers_group_defaults["ebs_delete"],
+      )
     }
   }
 
